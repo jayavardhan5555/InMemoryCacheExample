@@ -13,6 +13,12 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<EmployeeContext>(opts => opts.UseSqlServer(builder.Configuration["ConnectionString:EmployeeDB"]));
 builder.Services.AddScoped<IDataRepository<Employee>, EmployeeManager>();
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    options.Configuration = builder.Configuration["ConnectionString:Redis"];
+    options.InstanceName = "SampleInstance";
+});
 builder.Services.AddMemoryCache();
 var app = builder.Build();
 
